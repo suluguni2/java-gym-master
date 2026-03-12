@@ -4,13 +4,13 @@ import java.util.*;
 
 public class Timetable {
 
-    private final HashMap<DayOfWeek, TreeMap<TimeOfDay, HashSet<TrainingSession>>> timetable = new HashMap<>();
+    private final Map<DayOfWeek, Map<TimeOfDay, Set<TrainingSession>>> timetable = new HashMap<>();
 
     public void addNewTrainingSession(TrainingSession trainingSession) {
-        TreeMap<TimeOfDay, HashSet<TrainingSession>> trainingSessionsForDay =
+        Map<TimeOfDay, Set<TrainingSession>> trainingSessionsForDay =
                 timetable.getOrDefault(trainingSession.getDayOfWeek(), new TreeMap<>());
 
-        HashSet<TrainingSession> trainingSessionsForDayAndTime
+        Set<TrainingSession> trainingSessionsForDayAndTime
                 = trainingSessionsForDay.getOrDefault(trainingSession.getTimeOfDay(), new HashSet<>());
 
         trainingSessionsForDayAndTime.add(trainingSession);
@@ -18,21 +18,21 @@ public class Timetable {
         timetable.put(trainingSession.getDayOfWeek(), trainingSessionsForDay);
     }
 
-    public TreeMap<TimeOfDay, HashSet<TrainingSession>> getTrainingSessionsForDay(DayOfWeek dayOfWeek) {
+    public Map<TimeOfDay, Set<TrainingSession>> getTrainingSessionsForDay(DayOfWeek dayOfWeek) {
         return timetable.getOrDefault(dayOfWeek, new TreeMap<>());
     }
 
-    public HashSet<TrainingSession> getTrainingSessionsForDayAndTime(DayOfWeek dayOfWeek, TimeOfDay timeOfDay) {
-        TreeMap<TimeOfDay, HashSet<TrainingSession>> trainingSessionsForDay = timetable.getOrDefault(dayOfWeek, new TreeMap<>());
+    public Set<TrainingSession> getTrainingSessionsForDayAndTime(DayOfWeek dayOfWeek, TimeOfDay timeOfDay) {
+        Map<TimeOfDay, Set<TrainingSession>> trainingSessionsForDay = timetable.getOrDefault(dayOfWeek, new TreeMap<>());
         return trainingSessionsForDay.getOrDefault(timeOfDay, new HashSet<>());
     }
 
     public ArrayList<CounterOfTrainings> getCountByCoaches() {
         HashMap<Coach, Integer> counterOfTrainings = new HashMap<>();
 
-        for (TreeMap<TimeOfDay, HashSet<TrainingSession>> treeMap : timetable.values()) {
+        for (Map<TimeOfDay, Set<TrainingSession>> treeMap : timetable.values()) {
 
-            for (HashSet<TrainingSession> hashSet : treeMap.values()) {
+            for (Set<TrainingSession> hashSet : treeMap.values()) {
 
                 for (TrainingSession trainingSession : hashSet) {
 

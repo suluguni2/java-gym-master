@@ -21,7 +21,7 @@ public class TimetableTest {
         timetable.addNewTrainingSession(singleTrainingSession);
 
 
-        TreeMap<TimeOfDay, HashSet<TrainingSession>> trainingSessionsForDay;
+        Map<TimeOfDay, Set<TrainingSession>> trainingSessionsForDay;
 
         //Проверить, что за понедельник вернулось одно занятие
         trainingSessionsForDay = timetable.getTrainingSessionsForDay(DayOfWeek.MONDAY);
@@ -64,15 +64,15 @@ public class TimetableTest {
         assertEquals(1, (timetable.getTrainingSessionsForDay(DayOfWeek.MONDAY)).size());
 
         // Проверить, что за четверг вернулось два занятия в правильном порядке: сначала в 13:00, потом в 20:00
-        TreeMap<TimeOfDay, HashSet<TrainingSession>> trainingSessionsForDay =
-                (timetable.getTrainingSessionsForDay(DayOfWeek.THURSDAY));
+        Map<TimeOfDay, Set<TrainingSession>> trainingSessionsForDay =
+                timetable.getTrainingSessionsForDay(DayOfWeek.THURSDAY);
         TimeOfDay thirteen = new TimeOfDay(13, 0);
         TimeOfDay twenty = new TimeOfDay(20, 0);
 
         boolean isAssertionsTrue = false;
         if (trainingSessionsForDay.size() == 2) {
             int i = 0;
-            for (TimeOfDay timeOfDay : trainingSessionsForDay.navigableKeySet()) {
+            for (TimeOfDay timeOfDay : trainingSessionsForDay.keySet()) {
                 i += 1;
                 if (i == 1 && timeOfDay.equals(thirteen)) {
                     isAssertionsTrue = true;
@@ -99,7 +99,7 @@ public class TimetableTest {
 
         timetable.addNewTrainingSession(singleTrainingSession);
 
-        HashSet<TrainingSession> trainingSessionsForDayAndTime;
+        Set<TrainingSession> trainingSessionsForDayAndTime;
 
         //Проверить, что за понедельник в 13:00 вернулось одно занятие
         trainingSessionsForDayAndTime =
@@ -134,7 +134,7 @@ public class TimetableTest {
                 DayOfWeek.MONDAY, new TimeOfDay(13, 0));
         timetable.addNewTrainingSession(singleTrainingSession);
 
-        HashSet<TrainingSession> trainingSessionsForDayAndTime;
+        Set<TrainingSession> trainingSessionsForDayAndTime;
 
         // Проверить, что полностью идентичные группы не будут дублироваться в расписании
         trainingSessionsForDayAndTime =
