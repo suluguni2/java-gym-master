@@ -6,20 +6,25 @@ public class Timetable {
 
     private final Map<DayOfWeek, Map<TimeOfDay, Set<TrainingSession>>> timetable = new HashMap<>();
 
+    public Timetable() {
+        for (DayOfWeek dayOfWeek : DayOfWeek.values()) {
+            timetable.put(dayOfWeek, new TreeMap<>());
+        }
+    }
+
     public void addNewTrainingSession(TrainingSession trainingSession) {
         Map<TimeOfDay, Set<TrainingSession>> trainingSessionsForDay =
-                timetable.getOrDefault(trainingSession.getDayOfWeek(), new TreeMap<>());
+                timetable.get(trainingSession.getDayOfWeek());
 
         Set<TrainingSession> trainingSessionsForDayAndTime
                 = trainingSessionsForDay.getOrDefault(trainingSession.getTimeOfDay(), new HashSet<>());
 
         trainingSessionsForDayAndTime.add(trainingSession);
         trainingSessionsForDay.put(trainingSession.getTimeOfDay(), trainingSessionsForDayAndTime);
-        timetable.put(trainingSession.getDayOfWeek(), trainingSessionsForDay);
     }
 
     public Map<TimeOfDay, Set<TrainingSession>> getTrainingSessionsForDay(DayOfWeek dayOfWeek) {
-        return timetable.getOrDefault(dayOfWeek, new TreeMap<>());
+        return timetable.get(dayOfWeek);
     }
 
     public Set<TrainingSession> getTrainingSessionsForDayAndTime(DayOfWeek dayOfWeek, TimeOfDay timeOfDay) {
