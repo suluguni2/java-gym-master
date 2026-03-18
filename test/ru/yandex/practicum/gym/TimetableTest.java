@@ -21,7 +21,7 @@ public class TimetableTest {
         timetable.addNewTrainingSession(singleTrainingSession);
 
 
-        Map<TimeOfDay, Set<TrainingSession>> trainingSessionsForDay;
+        List<TrainingSession> trainingSessionsForDay;
 
         //Проверить, что за понедельник вернулось одно занятие
         trainingSessionsForDay = timetable.getTrainingSessionsForDay(DayOfWeek.MONDAY);
@@ -61,10 +61,10 @@ public class TimetableTest {
         timetable.addNewTrainingSession(saturdayChildTrainingSession);
 
         // Проверить, что за понедельник вернулось одно занятие
-        assertEquals(1, (timetable.getTrainingSessionsForDay(DayOfWeek.MONDAY)).size());
+        assertEquals(1, timetable.getTrainingSessionsForDay(DayOfWeek.MONDAY).size());
 
         // Проверить, что за четверг вернулось два занятия в правильном порядке: сначала в 13:00, потом в 20:00
-        Map<TimeOfDay, Set<TrainingSession>> trainingSessionsForDay =
+        List<TrainingSession> trainingSessionsForDay =
                 timetable.getTrainingSessionsForDay(DayOfWeek.THURSDAY);
         TimeOfDay thirteen = new TimeOfDay(13, 0);
         TimeOfDay twenty = new TimeOfDay(20, 0);
@@ -72,12 +72,14 @@ public class TimetableTest {
         boolean isAssertionsTrue = false;
         if (trainingSessionsForDay.size() == 2) {
             int i = 0;
-            for (TimeOfDay timeOfDay : trainingSessionsForDay.keySet()) {
+
+            for (TrainingSession ts : trainingSessionsForDay) {
+            /*for (TimeOfDay timeOfDay : trainingSessionsForDay.g) {*/
                 i += 1;
-                if (i == 1 && timeOfDay.equals(thirteen)) {
+                if (i == 1 && ts.getTimeOfDay().equals(thirteen)) {
                     isAssertionsTrue = true;
                 }
-                if (i == 2 && timeOfDay.equals(twenty)) {
+                if (i == 2 && ts.getTimeOfDay().equals(twenty)) {
                     isAssertionsTrue = true;
                 }
             }
@@ -99,7 +101,7 @@ public class TimetableTest {
 
         timetable.addNewTrainingSession(singleTrainingSession);
 
-        Set<TrainingSession> trainingSessionsForDayAndTime;
+        List<TrainingSession> trainingSessionsForDayAndTime;
 
         //Проверить, что за понедельник в 13:00 вернулось одно занятие
         trainingSessionsForDayAndTime =
@@ -134,7 +136,7 @@ public class TimetableTest {
                 DayOfWeek.MONDAY, new TimeOfDay(13, 0));
         timetable.addNewTrainingSession(singleTrainingSession);
 
-        Set<TrainingSession> trainingSessionsForDayAndTime;
+        List<TrainingSession> trainingSessionsForDayAndTime;
 
         // Проверить, что полностью идентичные группы не будут дублироваться в расписании
         trainingSessionsForDayAndTime =

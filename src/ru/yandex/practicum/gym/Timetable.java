@@ -23,13 +23,18 @@ public class Timetable {
         trainingSessionsForDay.put(trainingSession.getTimeOfDay(), trainingSessionsForDayAndTime);
     }
 
-    public Map<TimeOfDay, Set<TrainingSession>> getTrainingSessionsForDay(DayOfWeek dayOfWeek) {
-        return timetable.get(dayOfWeek);
+    public List<TrainingSession> getTrainingSessionsForDay(DayOfWeek dayOfWeek) {
+        Map<TimeOfDay, Set<TrainingSession>> map = timetable.get(dayOfWeek);
+        List<TrainingSession> list = new ArrayList<>();
+        for (TimeOfDay time : map.keySet()) {
+            list.addAll(map.get(time));
+        }
+        return list;
     }
 
-    public Set<TrainingSession> getTrainingSessionsForDayAndTime(DayOfWeek dayOfWeek, TimeOfDay timeOfDay) {
-        Map<TimeOfDay, Set<TrainingSession>> trainingSessionsForDay = timetable.getOrDefault(dayOfWeek, new TreeMap<>());
-        return trainingSessionsForDay.getOrDefault(timeOfDay, new HashSet<>());
+    public List<TrainingSession> getTrainingSessionsForDayAndTime(DayOfWeek dayOfWeek, TimeOfDay timeOfDay) {
+        Map<TimeOfDay, Set<TrainingSession>> trainingSessionsForDay = timetable.get(dayOfWeek);
+        return new ArrayList<>(trainingSessionsForDay.getOrDefault(timeOfDay, new HashSet<>()));
     }
 
     public ArrayList<CounterOfTrainings> getCountByCoaches() {
