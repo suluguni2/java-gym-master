@@ -74,7 +74,6 @@ public class TimetableTest {
             int i = 0;
 
             for (TrainingSession ts : trainingSessionsForDay) {
-            /*for (TimeOfDay timeOfDay : trainingSessionsForDay.g) {*/
                 i += 1;
                 if (i == 1 && ts.getTimeOfDay().equals(thirteen)) {
                     isAssertionsTrue = true;

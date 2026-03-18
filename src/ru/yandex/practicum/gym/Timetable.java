@@ -39,20 +39,13 @@ public class Timetable {
 
     public ArrayList<CounterOfTrainings> getCountByCoaches() {
         HashMap<Coach, Integer> counterOfTrainings = new HashMap<>();
-
         for (Map<TimeOfDay, Set<TrainingSession>> treeMap : timetable.values()) {
-
             for (Set<TrainingSession> hashSet : treeMap.values()) {
-
                 for (TrainingSession trainingSession : hashSet) {
-
                     int value = counterOfTrainings.getOrDefault(trainingSession.getCoach(), 0);
                     counterOfTrainings.put(trainingSession.getCoach(), ++value);
-
                 }
-
             }
-
         }
 
         ArrayList<CounterOfTrainings> trainingsOfCoaches = new ArrayList<>();
